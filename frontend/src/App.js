@@ -16,19 +16,18 @@ import NewsletterPage, { action as newsletterAction } from "./pages/Newsletter";
 import Authentication, {
   action as authenticationAction,
 } from "./pages/Authentication";
+import { action as logoutAction } from "./pages/Logout";
+import { checkToken, checkAuthTokenLoader } from "./util/auth";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    id: 'root',
+    loader: checkToken,
     children: [
       { index: true, element: <HomePage /> },
-      {
-        path: "auth",
-        element: <Authentication />,
-        action: authenticationAction,
-      },
       {
         path: "events",
         element: <EventsRootLayout />,
@@ -52,6 +51,7 @@ const router = createBrowserRouter([
                 path: "edit",
                 element: <EditEventPage />,
                 action: manipulateEventAction,
+                loader: checkAuthTokenLoader,
               },
             ],
           },
@@ -59,13 +59,23 @@ const router = createBrowserRouter([
             path: "new",
             element: <NewEventPage />,
             action: manipulateEventAction,
+            loader: checkAuthTokenLoader,
           },
         ],
+      },
+      {
+        path: "auth",
+        element: <Authentication />,
+        action: authenticationAction,
       },
       {
         path: "newsletter",
         element: <NewsletterPage />,
         action: newsletterAction,
+      },
+      {
+        path: "logout",
+        action: logoutAction,
       },
     ],
   },
