@@ -17,8 +17,6 @@ function AuthForm() {
 
   const isLogin = searchParams.get("mode") === "login";
 
-  console.log(JSON.stringify(data));
-
   return (
     <>
       <Form
